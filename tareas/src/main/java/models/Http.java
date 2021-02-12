@@ -25,9 +25,25 @@ public class Http {
     }
 
     // a) Indicar la cantidad de lineas del recurso retornado
-    public int getLines(){
+    public int getLinesResource(){
         return response.body().split("\n").length;
     }
+    // b) Indicar la cantidad de párrafos (p) que contiene el documento HTML
+    // c) Indicar la cantidad de imágenes (img) dentro de los párrafos que contiene el archivo HTML
+    public int getResourceByQuery(String query){
+        return document.select(query).size();
+    }
+    // d)  indicar la cantidad de formularios (form) que contiene el HTML por categorizando por el método implementado POST o GET
+
+    public int getResourceByMethod(String method){
+        return document.select("form[method='" + method + "']").size();
+    }
+
+
+
+
+
+
 
     
 
