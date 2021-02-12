@@ -3,8 +3,11 @@ package models;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.FormElement;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Http {
@@ -37,6 +40,20 @@ public class Http {
 
     public int getResourceByMethod(String method){
         return document.select("form[method='" + method + "']").size();
+    }
+    // e )Para cada formulario mostrar los campos del tipo input y su respectivo tipo que contiene en el documento HTML
+    public ArrayList<String> getInputsTypes(){
+        ArrayList<String> inputs = new ArrayList<>();
+        int formInd = 0,inputInd = 0;
+        for(FormElement aux : document.getElementsByTag("form").forms()){
+            for(Element aux2: aux.getElementsByTag("input")){
+                inputs.add("En el formulario #"+formInd+" el input #"+inputInd+" es de tipo "+ aux2.attr("type")+"\n");
+
+                inputInd++;
+            }
+            formInd++;
+        }
+        return inputs;
     }
 
 
