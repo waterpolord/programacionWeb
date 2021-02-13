@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 
 public class Http {
+
     private Document document;
     private Response response;
 
@@ -27,6 +28,15 @@ public class Http {
 
     }
 
+    public Document getDocument() {
+        return document;
+    }
+
+    public Response getResponse() {
+        return response;
+    }
+
+
     // a) Indicar la cantidad de lineas del recurso retornado
     public int getLinesResource(){
         return response.body().split("\n").length;
@@ -37,7 +47,6 @@ public class Http {
         return document.select(query).size();
     }
     // d)  indicar la cantidad de formularios (form) que contiene el HTML por categorizando por el método implementado POST o GET
-
     public int getResourceByMethod(String method){
         return document.select("form[method='" + method + "']").size();
     }
@@ -55,6 +64,30 @@ public class Http {
         }
         return inputs;
     }
+    //f) Para cada formulario parseado, identificar que el método de envío\n" +
+    //                "del formulario sea POST y enviar una petición al servidor con el\n" +
+    //                "parámetro llamado asignatura y valor practica1 y un header llamado\n" +
+    //                "matricula con el valor correspondiente a matrícula asignada. Debe\n" +
+    //                "mostrar la respuesta por la salida estándar:
+    public void Post() {
+
+        for(Element form: this.document.select("form[method='post']")) {
+
+            String urlAbsoluta = form.absUrl("action");
+            try {
+                Document documento = Jsoup.connect(urlAbsoluta).data("asignatura", "practica1")
+                        .header("matricula", "2017-1086").post();
+
+                System.out.println("Respuesta: " + documento.body().toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+
 
 
 

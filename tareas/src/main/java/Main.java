@@ -1,8 +1,16 @@
 import models.Http;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        Http http = new Http("https://en.wikipedia.org/");
+
+
+        Scanner scanf= new Scanner(System.in);
+        System.out.println("enter url: ");
+        String url = scanf.nextLine();
+
+        Http http = new Http(url);
         System.out.println("a) Indicar la cantidad de lineas del recurso retornado: "+http.getLinesResource()+"\n");
 
         System.out.println("b) Indicar la cantidad de párrafos (p) que contiene el documento HTML: "+http.getResourceByQuery("p")+"\n");
@@ -23,6 +31,8 @@ public class Main {
                 "parámetro llamado asignatura y valor practica1 y un header llamado\n" +
                 "matricula con el valor correspondiente a matrícula asignada. Debe\n" +
                 "mostrar la respuesta por la salida estándar: ");
+        http.Post();
+
 
 
 
