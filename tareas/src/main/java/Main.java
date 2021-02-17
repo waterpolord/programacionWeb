@@ -31,7 +31,7 @@ public class Main {
                 "parámetro llamado asignatura y valor practica1 y un header llamado\n" +
                 "matricula con el valor correspondiente a matrícula asignada. Debe\n" +
                 "mostrar la respuesta por la salida estándar: ");
-        http.Post();
+        //http.Post();
 
 
 

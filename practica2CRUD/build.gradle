@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group 'org.web'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    //javalin
+    compile 'io.javalin:javalin:3.8.0'
+}
