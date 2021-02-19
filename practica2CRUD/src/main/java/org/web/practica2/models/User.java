@@ -4,6 +4,7 @@ public class User {
     private String name;
     private String username;
     private String password;
+    private Boolean logged = false;
 
     public User(String name, String username, String password) {
         this.name = name;
@@ -33,5 +34,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getLogged() {
+        return logged;
+    }
+
+    public void setLogged(Boolean logged) {
+        this.logged = logged;
     }
 }

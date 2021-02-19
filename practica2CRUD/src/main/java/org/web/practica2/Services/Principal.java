@@ -28,6 +28,18 @@ public class Principal {
     }
 
     // metodos del usuario
+
+    public User loginRequest(String username, String password){
+        User user = findUserByUsername(username);
+        if(password.equalsIgnoreCase(user.getPassword()) && !user.getLogged()){
+            user.setLogged(true);
+            return user;
+        }
+        return null;
+    }
+
+
+
     public Boolean userExistByUsername(String username){
         for (User user:users){
             if(user.getUsername().equalsIgnoreCase(username)){
@@ -51,6 +63,8 @@ public class Principal {
             users.add(user);
         }
     }
+
+
 
 
 

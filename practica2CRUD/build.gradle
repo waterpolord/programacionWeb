@@ -13,4 +13,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     //javalin
     compile 'io.javalin:javalin:3.8.0'
+    //apache velocity
+    implementation group: 'org.apache.velocity', name: 'velocity', version: '1.7'
 }
