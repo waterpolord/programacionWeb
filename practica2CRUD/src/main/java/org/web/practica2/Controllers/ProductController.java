@@ -24,7 +24,7 @@ public class ProductController {
                     Map<String, Object> model = new HashMap<>();
                     model.put("title", "Tienda Online");
                     model.put("products",Principal.getInstance().getProducts());
-                    ctx.render("/public/home.vm",model);
+                    ctx.render("/public/home.html",model);
                 });
 
                 get("/comprar/:id", ctx -> {
@@ -32,7 +32,8 @@ public class ProductController {
                     Product product =Principal.getInstance().findProductByID(ctx.pathParam("id", Integer.class).get());
                     model.put("title", "Tienda Online");
                     model.put("product",product);
-                    ctx.render("/public/formproduct.vm",model);
+                    model.put("onBuy",true);
+                    ctx.render("/public/formproduct.html",model);
                 });
 
                 post("/crear", ctx -> {
@@ -47,10 +48,11 @@ public class ProductController {
 
                 });
 
-                get("/crear/form", ctx -> {
+                get("/crear", ctx -> {
                     Map<String, Object> model = new HashMap<>();
-
-                    ctx.render("/public/formproduct.vm");
+                    model.put("accion", "/productos/crear");
+                    model.put("onBuy",false);
+                    ctx.render("/public/formproduct.html",model);
                 });
 
 
@@ -59,11 +61,14 @@ public class ProductController {
                     Product product =Principal.getInstance().findProductByID(ctx.pathParam("id", Integer.class).get());
                     model.put("title", "Tienda Online");
                     model.put("product",product);
-                    ctx.render("/public/formproduct.vm",model);
+                    model.put("onBuy",false);
+                    model.put("accion", "/productos/editar/"+product.getId());
+                    ctx.render("/public/formproduct.html",model);
                 });
 
-                put("/editar", ctx -> {
+                post("/editar/:id", ctx -> {
                     Product product = new Product(
+                            ctx.pathParam("id", Integer.class).get(),
                             ctx.formParam("nombre"),
                             ctx.formParam("precio", Double.class).get(),
                             ctx.formParam("cantidad", Integer.class).get()
@@ -73,6 +78,14 @@ public class ProductController {
 
                 });
 
+
+                get("/eliminar/:id", ctx -> {
+
+                    Principal.getInstance().deleteProductById(ctx.pathParam("id", Integer.class).get());
+
+                    ctx.redirect("/productos");
+
+                });
 
 
 

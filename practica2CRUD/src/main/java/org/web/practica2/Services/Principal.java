@@ -16,6 +16,10 @@ public class Principal {
     private ArrayList<Sell> sells =  new ArrayList<>();
 
     public Principal(){
+        products.add(new Product(1,"Leche",200.0,5));
+        products.add(new Product(2,"Queso",225.0,50));
+        products.add(new Product(3,"Jamon",242.0,4));
+        products.add(new Product(4,"Lechuga",2.0,15));
         users.add(new User("Robert","Admin","admin"));
 
 
@@ -68,9 +72,11 @@ public class Principal {
     //metodos de producto
 
     public Product findProductByID(int id){
-        for(Product product:products){
-            if(product.getId() == id){
-                return product;
+        if(products.size() > 0) {
+            for (Product product : products) {
+                if (product.getId() == id) {
+                    return product;
+                }
             }
         }
         return null;
@@ -84,6 +90,22 @@ public class Principal {
             old.setQuantity(product.getQuantity());
         }
         return old;
+    }
+
+    public void deleteProductById(int id){
+
+            Product product = findProductByID(id);
+            int num = -1;
+            for(Product aux:products){
+                num++;
+                if(aux.getId() == product.getId() )
+                    break;
+
+            }
+            if(num > -1)
+                products.remove(num);
+
+
     }
 
 

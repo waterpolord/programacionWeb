@@ -3,9 +3,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-
+-->
 </head>
 <body>
 
@@ -13,9 +13,11 @@
 
 </header>-->
 
+<div th:replace="plantilla.html::header" ></div>
+
 <div class="card bg-dark text-white">
     <div class="card-body">
-        <form enctype="application/x-www-form-urlencoded" method="post" th:attr="'action=/productos/crear' ">
+        <form enctype="application/x-www-form-urlencoded" method="post" th:attr="action=${accion}">
             <div class="form-group row">
                 <div class="col-sm-6">
                     <a href="/productos" class="btn btn-primary">Volver</a>
@@ -24,7 +26,7 @@
             <div class="form-group row">
                 <label for="nombre" class="col-form-label col-sm-2" >Nombre</label>
                 <div class="col-sm-6 ">
-                    <input type="text" class="form-control" th:readonly="${visualizar}" th:value="${product} ? ${product.name} : ''" [(ngModel)]="cliente.nombre" name="nombre">
+                    <input type="text" class="form-control" th:readonly="${onBuy}" th:value="${product} ? ${product.name} : ''" name="nombre">
                 </div>
 
             </div>
@@ -32,7 +34,7 @@
             <div class="form-group row">
                 <label for="precio" class="col-form-label col-sm-2">Precio</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" th:readonly="${visualizar}" th:value="${product} ? ${product.price} : ''"name="precio">
+                    <input type="text" class="form-control" th:readonly="${onBuy}" th:value="${product} ? ${product.price} : ''"name="precio">
                 </div>
 
             </div>
@@ -40,24 +42,19 @@
             <div class="form-group row">
                 <label for="cantidad" class="col-form-label col-sm-2">Cantidad</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" th:readonly="${visualizar}" th:value="${product} ? ${product.quantity} : ''"name="cantidad">
+                    <input type="text" class="form-control" th:readonly="${onBuy}" th:value="${product} ? ${product.quantity} : ''"name="cantidad">
                 </div>
 
             </div>
 
-            <!--<div class="form-group row">
+            <div class="form-group row">
                 <div class="col-sm-6">
 
-                    <div th:switch="${product}">
-                        <a th:case="${product != null}"  href="'productos/editar/'+${product.id}"  class="btn btn-primary" name ="Editar" role="button" >Comprar</a>
-
-
-                        <a th:case="*" type="submit" href="/productos/crear"  th:method="post" method="post" action="/productos/crear" role="button" class="btn btn-primary">Crear</a>
-                    </div>
-
+                        <button type="submit" class="btn btn-primary" th:text="${product}? (${onBuy}?'Comprar':'Editar'):'Crear' ">Crear</button>
 
                 </div>
-            </div>-->
+            </div>
+
 
         </form>
 
@@ -67,12 +64,16 @@
 
 </div>-->
 
-<div th:fragment="javascript">
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--<div th:fragment="javascript">
+    &lt;!&ndash; Optional JavaScript &ndash;&gt;
+    &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</div>-->
+
+<div th:replace="plantilla.html::javascript">
+
 </div>
 </body>
 

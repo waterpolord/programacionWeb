@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         Javalin app = Javalin.create(config -> {
             config.addStaticFiles("/public");
+            config.registerPlugin(new RouteOverviewPlugin("/rutas"));
             config.enableCorsForAllOrigins();
             JavalinRenderer.register(JavalinThymeleaf.INSTANCE, ".html");
         }).start(7777);
