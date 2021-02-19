@@ -18,6 +18,7 @@ public class Principal {
     public Principal(){
         users.add(new User("Robert","Admin","admin"));
 
+
     }
 
     public static Principal getInstance(){
@@ -64,9 +65,37 @@ public class Principal {
         }
     }
 
+    //metodos de producto
+
+    public Product findProductByID(int id){
+        for(Product product:products){
+            if(product.getId() == id){
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public Product updateProduct(Product product){
+        Product old = findProductByID(product.getId());
+        if(product != null){
+            old.setName(product.getName());
+            old.setPrice(product.getPrice());
+            old.setQuantity(product.getQuantity());
+        }
+        return old;
+    }
 
 
-
+    public void addProduct(Product product){
+        if(products.isEmpty()){
+            product.setId(1);
+        }
+        else{
+            product.setId(products.size()+1);
+        }
+        products.add(product);
+    }
 
     // getters
 

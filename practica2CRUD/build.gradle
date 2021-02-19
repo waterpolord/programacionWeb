@@ -11,8 +11,13 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile "org.slf4j:slf4j-simple:1.7.28"
+    compile "org.thymeleaf:thymeleaf:3.0.9.RELEASE"
     //javalin
     compile 'io.javalin:javalin:3.8.0'
     //apache velocity
     implementation group: 'org.apache.velocity', name: 'velocity', version: '1.7'
+    //Thymeleaf
+    //implementation group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.12.RELEASE'
+    //compile 'org.thymeleaf:thymeleaf:3.0.5.RELEASE'
 }
