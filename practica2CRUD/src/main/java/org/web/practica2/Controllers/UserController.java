@@ -17,9 +17,9 @@ public class UserController {
 
 
         app.routes(() -> {
-            path("/user/", () -> {
+            path("/user", () -> {
                 get("/", ctx -> {
-                    ctx.redirect("/");
+                    ctx.render("public/login.html");
                 });
                 //POST
                 post("/login",ctx -> {
@@ -28,7 +28,7 @@ public class UserController {
                     assert password != null;
                     User user = Principal.getInstance().loginRequest(username,password);
                     ctx.sessionAttribute("user", user);
-                    ctx.redirect("/carrito");
+                    ctx.redirect("/productos");
 
                 });
 

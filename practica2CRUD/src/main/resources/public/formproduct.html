@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
--->
-</head>
+        <link rel="stylesheet" type="text/css" media="all"
+              href="css/plantilla.css" th:href="@{css/plantilla.css}" />
+        <title>Carrito</title>
+    </head>
 <body>
 
-<!--<header th:replace="/plantilla.html::head">
 
-</header>-->
 
 <div th:replace="plantilla.html::header" ></div>
 
@@ -23,6 +22,23 @@
                     <a href="/productos" class="btn btn-primary">Volver</a>
                 </div>
             </div>
+
+            <div class="form-group row" >
+                <label th:hidden="!${onBuy}" for="cliente" class="col-form-label col-sm-2" >Nombre: </label>
+                <div  class="col-sm-6 ">
+                    <input th:hidden="!${onBuy}" type="text" class="form-control" name="cliente">
+                </div>
+
+            </div>
+
+            <div class="form-group row" >
+                <label th:hidden="!${onBuy}" for="mail" class="col-form-label col-sm-2">Correo</label>
+                <div class="col-sm-6">
+                    <input th:hidden="!${onBuy}" type="email" class="form-control" name="email">
+                </div>
+
+            </div>
+
             <div class="form-group row">
                 <label for="nombre" class="col-form-label col-sm-2" >Nombre</label>
                 <div class="col-sm-6 ">
@@ -40,9 +56,17 @@
             </div>
 
             <div class="form-group row">
-                <label for="cantidad" class="col-form-label col-sm-2">Cantidad</label>
+                <label for="cantidad" class="col-form-label col-sm-2">Cantidad disponible</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" th:readonly="${onBuy}" th:value="${product} ? ${product.quantity} : ''"name="cantidad">
+                </div>
+
+            </div>
+
+            <div class="form-group row" th:hidden="!${onBuy}">
+                <label for="compra" class="col-form-label col-sm-2">Cantidad a comprar</label>
+                <div class="col-sm-6">
+                    <input   type="number" id="quantity" th:value="1" name="compra" min="1"  th:max="${product} ? ${product.quantity} : 1" >
                 </div>
 
             </div>
@@ -60,21 +84,12 @@
 
     </div>
 </div>
-<!--<div th:replace="/plantilla.html::javascript">
-
-</div>-->
-
-<!--<div th:fragment="javascript">
-    &lt;!&ndash; Optional JavaScript &ndash;&gt;
-    &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</div>-->
-
-<div th:replace="plantilla.html::javascript">
+<div th:replace="/plantilla.html::javascript">
 
 </div>
+
+
 </body>
+
 
 </html>

@@ -119,6 +119,44 @@ public class Principal {
         products.add(product);
     }
 
+    // metodos de cliente
+    public void addClient(Client client){
+        clients.add(client);
+    }
+
+    public Boolean clientExistByEmail(String email){
+        for (Client client:clients){
+            if(client.getMail().equalsIgnoreCase(email)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Client findClientByEmail(String email){
+        for (Client client:clients){
+            if(client.getMail().equalsIgnoreCase(email)){
+                return client;
+            }
+        }
+        return null;
+    }
+
+
+
+    // metodos de ventas
+
+    public void addSell(Sell sell){
+        if(sells.isEmpty()){
+            sell.setId(1);
+        }
+        else{
+            sell.setId(sells.size()+1);
+        }
+        sells.add(sell);
+    }
+
+
     // getters
 
     public ArrayList<User> getUsers() {

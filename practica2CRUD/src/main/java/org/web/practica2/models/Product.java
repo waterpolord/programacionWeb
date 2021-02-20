@@ -8,6 +8,7 @@ public class Product {
 
     public Product() {
 
+
     }
 
     public Product(String name, Double price, int quantity) {
@@ -54,4 +55,5 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
 }

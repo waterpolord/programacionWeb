@@ -7,7 +7,7 @@
         <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 -->
         <link rel="stylesheet" type="text/css" media="all"
-              href="static/css/home.css" th:href="@{static/css/home.css}" />
+              href="css/plantilla.css" th:href="@{css/plantilla.css}" />
         <title>Carrito</title>
     </head>
     <body>
@@ -50,8 +50,9 @@
                         <td th:text="${aux.price}">Precio</td>
                         <td th:text="${aux.quantity}">Cantidad</td>
                         <td>
-                            <a th:text="Editar" th:href="'productos/editar/'+${aux.id}" th class="btn btn-secondary btn-sm"/> |
-                            <a th:text="Eliminar" th:href="'/productos/eliminar/'+${aux.id}" th class="btn btn-danger btn-sm"/>
+                            <a th:hidden="!${logged}" th:text="Editar" th:href="'productos/editar/'+${aux.id}" th class="btn btn-secondary btn-sm"/> |
+                            <a th:hidden="!${logged}" th:text="Eliminar" th:href="'/productos/eliminar/'+${aux.id}" th class="btn btn-danger btn-sm"/> |
+                            <a th:text="Comprar" th:href="'/productos/comprar/'+${aux.id}" th class="btn btn-success btn-sm"/>
                         </td>
                     </tr>
                     </tbody>

@@ -10,10 +10,10 @@ public class Sell {
     private ArrayList<Product> products;
     private LocalDate date;
 
-    public Sell(int id, Client client, User user, ArrayList<Product> products, LocalDate date) {
-        this.id = id;
+    public Sell( Client client, ArrayList<Product> products, LocalDate date) {
+
         this.client = client;
-        this.user = user;
+        //this.user = user;
         this.products = products;
         this.date = date;
     }
