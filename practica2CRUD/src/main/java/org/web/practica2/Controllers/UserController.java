@@ -4,6 +4,9 @@ import io.javalin.Javalin;
 import org.web.practica2.Services.Principal;
 import org.web.practica2.models.User;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class UserController {
@@ -19,8 +22,18 @@ public class UserController {
         app.routes(() -> {
             path("/user", () -> {
                 get("/", ctx -> {
-                    ctx.render("public/login.html");
+                    Map<String, Object> model = new HashMap<>();
+                    model.put("title","Tienda Online");
+                    ctx.render("public/login.html",model);
                 });
+
+                get("/ventas",ctx -> {
+                    Map<String, Object> model = new HashMap<>();
+                    model.put("sales",Principal.getInstance().getSells());
+                    model.put("title","Tienda Online");
+                    ctx.render("public/sales.html",model);
+                });
+
                 //POST
                 post("/login",ctx -> {
                     String username = ctx.formParam("username");
@@ -31,6 +44,8 @@ public class UserController {
                     ctx.redirect("/productos");
 
                 });
+
+
 
             });
         });

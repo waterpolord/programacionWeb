@@ -6,10 +6,6 @@ public class Product {
     private Double price;
     private int quantity;
 
-    public Product() {
-
-
-    }
 
     public Product(String name, Double price, int quantity) {
         this.name = name;
@@ -21,6 +17,13 @@ public class Product {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.quantity = quantity;
+    }
+
+    public Product(Product product,int quantity){
+        this.id = product.getId();
+        this.name = product.getName();
+        this.price = product.getPrice();
         this.quantity = quantity;
     }
 

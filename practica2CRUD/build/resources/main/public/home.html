@@ -3,25 +3,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
--->
+        <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" media="all"
               href="css/plantilla.css" th:href="@{css/plantilla.css}" />
         <title>Carrito</title>
+
     </head>
     <body>
 
-        <!--<header class="container-fluid" th:insert="plantilla.html::header">
 
-            <p id="title" th:text="${title}">
-                Titulo no encontrado
 
-            </p>
+    <header th:replace="plantilla.html::header" >
 
-        </header>-->
-
-        <div th:replace="plantilla.html::header" ></div>
+    </header>
 
 
 
@@ -31,7 +25,7 @@
                 <div class="form-group row">
 
                     <div class = "input-group">
-                        <a href="/productos/crear" class="btn btn-primary">Nuevo Producto</a>
+                        <a th:hidden="!${logged}" href="/productos/crear" class="btn btn-primary">Nuevo Producto</a>
                     </div>
                 </div>
 
@@ -52,7 +46,7 @@
                         <td>
                             <a th:hidden="!${logged}" th:text="Editar" th:href="'productos/editar/'+${aux.id}" th class="btn btn-secondary btn-sm"/> |
                             <a th:hidden="!${logged}" th:text="Eliminar" th:href="'/productos/eliminar/'+${aux.id}" th class="btn btn-danger btn-sm"/> |
-                            <a th:text="Comprar" th:href="'/productos/comprar/'+${aux.id}" th class="btn btn-success btn-sm"/>
+                            <a th:hidden="${aux.quantity} > 0?false:true" th:text="Comprar" th:href="'/productos/comprar/'+${aux.id}" th class="btn btn-success btn-sm"></a>
                         </td>
                     </tr>
                     </tbody>
@@ -67,13 +61,7 @@
 
         </div>
 
-        <!--<div th:fragment="javascript">
-            &lt;!&ndash; Optional JavaScript &ndash;&gt;
-            &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;
-            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        </div>-->
+
     </body>
 
 

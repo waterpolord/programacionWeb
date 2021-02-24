@@ -142,6 +142,20 @@ public class Principal {
         return null;
     }
 
+    public Client updateClient(Client client){
+        Client old = findClientByEmail(client.getMail());
+        if(client != null){
+            old.setName(client.getName());
+            old.setMail(client.getMail());
+            old.setKart(client.getKart());
+        }
+        return old;
+    }
+
+
+
+
+
 
 
     // metodos de ventas

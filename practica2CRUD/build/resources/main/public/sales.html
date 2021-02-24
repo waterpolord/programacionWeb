@@ -37,9 +37,12 @@
 
 
         <ol th:each="aux:${sales}" >
-            <li th:text="${aux.client.name} - ${aux.date}"">
+            <p th:text="${aux.client.name}">
 
-            </li>
+            </p>
+            <p th:text="${aux.date}">
+
+            </p>
 
             <table class="table table-striped">
                 <thead>
@@ -53,11 +56,11 @@
                 </thead>
                 <tbody>
 
-                <tr th:each="aux2 : ${sales.products}">
-                    <td th:text="${aux.name}">Nombre</td>
-                    <td th:text="${aux.price}">Precio</td>
-                    <td th:text="${aux.quantity}">Cantidad</td>
-                    <td th:text="${aux.quantity} * ${aux.price}">Total</td>
+                <tr th:each="aux2 : ${aux.products}">
+                    <td th:text="${aux2.name}">Nombre</td>
+                    <td th:text="${aux2.price}">Precio</td>
+                    <td th:text="${aux2.quantity}">Cantidad</td>
+                    <td th:text="${aux2.quantity} * ${aux2.price}">Total</td>
 
                 </tr>
                 </tbody>
