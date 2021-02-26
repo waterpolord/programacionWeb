@@ -27,6 +27,7 @@ public class UserController {
             path("/user", () -> {
                 get("/", ctx -> {
                     Map<String, Object> model = new HashMap<>();
+
                     model.put("title","Tienda Online");
                     ctx.render("public/login.html",model);
                 });
@@ -40,11 +41,20 @@ public class UserController {
 
                 //POST
                 post("/login",ctx -> {
+
                     String username = ctx.formParam("username");
                     String password = ctx.formParam("password");
                     assert password != null;
                     User user = userService.loginRequest(username,password);
-                    ctx.sessionAttribute("user", user);
+                    if(user != null){
+
+                        if(ctx.formParam("session") != null ){
+                            ctx.cookie("username",user.getUsername(),604800);
+
+                        }
+                        ctx.sessionAttribute("user", user);
+                    }
+
                     ctx.redirect("/productos");
 
                 });

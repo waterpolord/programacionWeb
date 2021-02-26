@@ -1,10 +1,7 @@
 package org.web.practica2.Controllers;
 
 import io.javalin.Javalin;
-import org.web.practica2.Services.ClientService;
-import org.web.practica2.Services.Principal;
-import org.web.practica2.Services.ProductService;
-import org.web.practica2.Services.SaleService;
+import org.web.practica2.Services.*;
 import org.web.practica2.models.Client;
 import org.web.practica2.models.Product;
 import org.web.practica2.models.Sale;
@@ -24,6 +21,7 @@ public class ProductController {
     private ProductService productService = new ProductService();
     private ClientService clientService = new ClientService();
     private SaleService saleService = new SaleService();
+    private UserService userService = new UserService();
 
     public ProductController(Javalin app ){
         this.app = app;
@@ -33,12 +31,22 @@ public class ProductController {
         app.routes(() -> {
             path("/productos", () -> {
                 get("/", ctx -> {
+
                     Map<String, Object> model = new HashMap<>();
                     model.put("title", "Tienda Online");
                     model.put("products",productService.findAllProducts());
                     User user = ctx.sessionAttribute("user");
+                    String username = ctx.cookie("username");
+                    if(username != null){
+                       user = userService.findUserByUsername(username);
+
+                    }
+                    else{
+                        user = null;
+                    }
+
                     if(user != null){
-                        model.put("logged",user.getLogged());
+                        model.put("logged",true);
                     }
                     else{
                         model.put("logged",false);
@@ -90,6 +98,7 @@ public class ProductController {
                         for(Product aux:selectedproducts){
                             client.addToKart(aux);
                         }
+                        clientService.updateClient(client);
                         ctx.sessionAttribute("cart",client.getKart());
                         ctx.sessionAttribute("client",client);
 
@@ -101,7 +110,7 @@ public class ProductController {
                     //Principal.getInstance().addProduct(product);
                     ctx.redirect("/productos");
 
-                });
+                    });
 
 
                 post("/crear", ctx -> {

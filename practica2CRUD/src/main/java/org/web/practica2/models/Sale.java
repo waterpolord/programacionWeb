@@ -17,6 +17,13 @@ public class Sale {
         this.date = date;
     }
 
+    public Sale(int id,Client client, ArrayList<Product> products, LocalDate date) {
+        this.id = id;
+        this.client = client;
+        this.products = products;
+        this.date = date;
+    }
+
     public int getId() {
         return id;
     }
@@ -47,5 +54,9 @@ public class Sale {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void addProduct(Product product){
+        products.add(product);
     }
 }

@@ -1,5 +1,7 @@
 package org.web.practica2.Services;
 
+import org.jasypt.util.password.PasswordEncryptor;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.web.practica2.Services.Connection.DataBaseService;
 import org.web.practica2.models.User;
 
@@ -7,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserService {
 
@@ -24,7 +28,7 @@ public class UserService {
             ok = fila > 0 ;
         }
         catch (SQLException e){
-
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, e);
         }
         return ok;
     }
@@ -36,7 +40,7 @@ public class UserService {
             String query = "SELECT * FROM user_app WHERE user_app.username = ?";
             connection = DataBaseService.getInstance().getConexion();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(2,username);
+            preparedStatement.setString(1,username);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()){
                 user = new User(
@@ -61,8 +65,9 @@ public class UserService {
 
     public User loginRequest(String username, String password){
         User user = findUserByUsername(username);
-        if(password.equalsIgnoreCase(user.getPassword()) && !user.getLogged()){
-            user.setLogged(true);
+        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+        if(user == null) return null;
+        if(passwordEncryptor.checkPassword(password,user.getPassword())){
             return user;
         }
         return null;

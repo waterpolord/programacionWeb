@@ -27,7 +27,7 @@ public class ProductService {
             ok = fila > 0 ;
         }
         catch (SQLException e){
-
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, e);
         }
         return ok;
     }
@@ -47,7 +47,7 @@ public class ProductService {
             ok = fila > 0 ;
         }
         catch (SQLException e){
-
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, e);
         }
         return ok;
     }
@@ -103,7 +103,7 @@ public class ProductService {
             }
 
         }catch (SQLException e){
-
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, e);
         }
         return products;
     }

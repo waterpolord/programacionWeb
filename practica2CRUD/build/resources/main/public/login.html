@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" media="all"
           href="css/plantilla.css" th:href="@{css/plantilla.css}" />
-    <div th:insert="plantilla.html::style"></div>
+
     <title>login</title>
 
 </head>
@@ -44,6 +44,15 @@
                         <div class = "input-group">
                             <button type="submit"  class="btn btn-success">Entrar</button>
 
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class = "input-group">
+
+                            <input type="checkbox" name="session">
+                            <label>Mantener sesion iniciada</label><br>
                         </div>
                     </div>
                     
