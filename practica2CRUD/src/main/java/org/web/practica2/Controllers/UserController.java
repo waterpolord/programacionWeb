@@ -2,6 +2,8 @@ package org.web.practica2.Controllers;
 
 import io.javalin.Javalin;
 import org.web.practica2.Services.Principal;
+import org.web.practica2.Services.SaleService;
+import org.web.practica2.Services.UserService;
 import org.web.practica2.models.User;
 
 import java.util.HashMap;
@@ -11,6 +13,8 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class UserController {
     private Javalin app;
+    private UserService userService = new UserService();
+    private SaleService saleService = new SaleService();
 
     public UserController(Javalin app ){
         this.app = app;
@@ -29,7 +33,7 @@ public class UserController {
 
                 get("/ventas",ctx -> {
                     Map<String, Object> model = new HashMap<>();
-                    model.put("sales",Principal.getInstance().getSells());
+                    model.put("sales",saleService.findAllSales());
                     model.put("title","Tienda Online");
                     ctx.render("public/sales.html",model);
                 });
@@ -39,7 +43,7 @@ public class UserController {
                     String username = ctx.formParam("username");
                     String password = ctx.formParam("password");
                     assert password != null;
-                    User user = Principal.getInstance().loginRequest(username,password);
+                    User user = userService.loginRequest(username,password);
                     ctx.sessionAttribute("user", user);
                     ctx.redirect("/productos");
 

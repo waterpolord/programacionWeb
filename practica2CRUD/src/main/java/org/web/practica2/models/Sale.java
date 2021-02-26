@@ -3,17 +3,16 @@ package org.web.practica2.models;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Sell {
+public class Sale {
     private int id;
     private Client client;
-    private User user;
+
     private ArrayList<Product> products;
     private LocalDate date;
 
-    public Sell( Client client, ArrayList<Product> products, LocalDate date) {
+    public Sale(Client client, ArrayList<Product> products, LocalDate date) {
 
         this.client = client;
-        //this.user = user;
         this.products = products;
         this.date = date;
     }
@@ -32,14 +31,6 @@ public class Sell {
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public ArrayList<Product> getProducts() {

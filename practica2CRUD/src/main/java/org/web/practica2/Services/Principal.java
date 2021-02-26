@@ -2,18 +2,17 @@ package org.web.practica2.Services;
 
 import org.web.practica2.models.Client;
 import org.web.practica2.models.Product;
-import org.web.practica2.models.Sell;
+import org.web.practica2.models.Sale;
 import org.web.practica2.models.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Principal {
     private static Principal principal;
     private ArrayList<User> users =  new ArrayList<>();
     private ArrayList<Client> clients =  new ArrayList<>();
     private ArrayList<Product> products =  new ArrayList<>();
-    private ArrayList<Sell> sells =  new ArrayList<>();
+    private ArrayList<Sale> sales =  new ArrayList<>();
 
     public Principal(){
         products.add(new Product(1,"Leche",200.0,5));
@@ -24,7 +23,7 @@ public class Principal {
 
 
     }
-
+/*
     public static Principal getInstance(){
         if(principal == null){
             principal = new Principal();
@@ -160,14 +159,14 @@ public class Principal {
 
     // metodos de ventas
 
-    public void addSell(Sell sell){
-        if(sells.isEmpty()){
-            sell.setId(1);
+    public void addSell(Sale sale){
+        if(sales.isEmpty()){
+            sale.setId(1);
         }
         else{
-            sell.setId(sells.size()+1);
+            sale.setId(sales.size()+1);
         }
-        sells.add(sell);
+        sales.add(sale);
     }
 
 
@@ -185,8 +184,8 @@ public class Principal {
         return products;
     }
 
-    public ArrayList<Sell> getSells() {
-        return sells;
-    }
+    public ArrayList<Sale> getSales() {
+        return sales;
+    }*/
 
 }

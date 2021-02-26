@@ -5,14 +5,31 @@ import org.web.practica2.Services.Principal;
 import java.util.ArrayList;
 
 public class Client {
+    private int id;
     private String name;
     private String mail;
     private ArrayList<Product> kart;
 
-    public Client(String name, String mail, ArrayList<Product> kart) {
+    public Client(int id,String name, String mail, ArrayList<Product> kart) {
+        this.id = id;
         this.name = name;
         this.mail = mail;
         this.kart = kart;
+    }
+
+    public Client(String name, String mail, ArrayList<Product> kart) {
+
+        this.name = name;
+        this.mail = mail;
+        this.kart = kart;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

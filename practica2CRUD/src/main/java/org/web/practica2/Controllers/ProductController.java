@@ -1,13 +1,15 @@
 package org.web.practica2.Controllers;
 
 import io.javalin.Javalin;
+import org.web.practica2.Services.ClientService;
 import org.web.practica2.Services.Principal;
+import org.web.practica2.Services.ProductService;
+import org.web.practica2.Services.SaleService;
 import org.web.practica2.models.Client;
 import org.web.practica2.models.Product;
-import org.web.practica2.models.Sell;
+import org.web.practica2.models.Sale;
 import org.web.practica2.models.User;
 
-import javax.jws.soap.SOAPBinding;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +21,9 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class ProductController {
 
     private Javalin app;
+    private ProductService productService = new ProductService();
+    private ClientService clientService = new ClientService();
+    private SaleService saleService = new SaleService();
 
     public ProductController(Javalin app ){
         this.app = app;
@@ -30,7 +35,7 @@ public class ProductController {
                 get("/", ctx -> {
                     Map<String, Object> model = new HashMap<>();
                     model.put("title", "Tienda Online");
-                    model.put("products",Principal.getInstance().getProducts());
+                    model.put("products",productService.findAllProducts());
                     User user = ctx.sessionAttribute("user");
                     if(user != null){
                         model.put("logged",user.getLogged());
@@ -51,7 +56,7 @@ public class ProductController {
 
                 get("/comprar/:id", ctx -> {
                     Map<String, Object> model = new HashMap<>();
-                    Product product =Principal.getInstance().findProductByID(ctx.pathParam("id", Integer.class).get());
+                    Product product = productService.findProductById(ctx.pathParam("id", Integer.class).get());
                     model.put("title", "Tienda Online");
                     model.put("product",product);
                     model.put("accion", "/productos/comprar/"+product.getId());
@@ -61,19 +66,19 @@ public class ProductController {
 
                 post("/comprar/:id", ctx -> {
                     Map<String, Object> model = new HashMap<>();
-                    Product product =Principal.getInstance().findProductByID(ctx.pathParam("id", Integer.class).get());
+                    Product product = productService.findProductById(ctx.pathParam("id", Integer.class).get());
                     int quantity = ctx.formParam("compra", Integer.class).get();
                     ArrayList<Product> selectedproducts = new ArrayList<>();
                     product.setQuantity(product.getQuantity() - quantity);
                     //selectedproducts.add(product);
-                    Principal.getInstance().updateProduct(product);
+                    productService.updateProduct(product);
                    // product.setQuantity(quantity);
                     Product product1 = new Product(product,quantity);
                     selectedproducts.add(product1);
                     String mail = ctx.formParam("email");
-                    if(!Principal.getInstance().clientExistByEmail(mail)){
+                    if(clientService.findClientByMail(mail) == null){
                         Client client =  new Client(ctx.formParam("cliente"),mail,selectedproducts);
-                        Principal.getInstance().addClient(client);
+                        clientService.createClient(client);
                         /*Principal.getInstance().addSell(
                                 new Sell(client,selectedproducts, LocalDate.now())
                         );*/
@@ -81,7 +86,7 @@ public class ProductController {
                         ctx.sessionAttribute("client",client);
                     }
                     else{
-                        Client client = Principal.getInstance().findClientByEmail(mail);
+                        Client client = clientService.findClientByMail(mail);
                         for(Product aux:selectedproducts){
                             client.addToKart(aux);
                         }
@@ -106,7 +111,7 @@ public class ProductController {
                             ctx.formParam("cantidad", Integer.class).get()
                     );
 
-                    Principal.getInstance().addProduct(product);
+                    productService.createProduct(product);
                     ctx.redirect("/productos");
 
                 });
@@ -122,7 +127,7 @@ public class ProductController {
 
                 get("/editar/:id", ctx -> {
                     Map<String, Object> model = new HashMap<>();
-                    Product product =Principal.getInstance().findProductByID(ctx.pathParam("id", Integer.class).get());
+                    Product product = productService.findProductById(ctx.pathParam("id", Integer.class).get());
                     model.put("title", "Tienda Online");
                     model.put("product",product);
                     model.put("onBuy",false);
@@ -137,7 +142,7 @@ public class ProductController {
                             ctx.formParam("precio", Double.class).get(),
                             ctx.formParam("cantidad", Integer.class).get()
                     );
-                    Principal.getInstance().updateProduct(product);
+                    productService.updateProduct(product);
                     ctx.redirect("/productos");
 
                 });
@@ -145,7 +150,7 @@ public class ProductController {
 
                 get("/eliminar/:id", ctx -> {
 
-                    Principal.getInstance().deleteProductById(ctx.pathParam("id", Integer.class).get());
+                    productService.deleteProductById(ctx.pathParam("id", Integer.class).get());
 
                     ctx.redirect("/productos");
 
@@ -166,11 +171,11 @@ public class ProductController {
                     Client client = ctx.sessionAttribute("client");
                     assert client != null;
 
-                    Product product = Principal.getInstance().findProductByID(ctx.pathParam("id", Integer.class).get());
+                    Product product = productService.findProductById(ctx.pathParam("id", Integer.class).get());
                     Product productClient = client.getProductById(product);
                     product.setQuantity( product.getQuantity() + productClient.getQuantity());
                     client.deleteProductFromKartById(ctx.pathParam("id", Integer.class).get());
-                    Principal.getInstance().updateClient(client);
+                    clientService.updateClient(client);
 
                     ctx.redirect("/productos");
 
@@ -183,9 +188,9 @@ public class ProductController {
                     assert client != null;
 
 
-                    Principal.getInstance().addSell(new Sell(client,client.getKart(),LocalDate.now()));
+                    saleService.createSale(new Sale(client,client.getKart(),LocalDate.now()));
                     client.setKart(new ArrayList<>());
-                    Principal.getInstance().updateClient(client);
+                    clientService.updateClient(client);
                     ctx.sessionAttribute("cart",client.getKart());
                     ctx.redirect("/productos");
 
@@ -198,7 +203,7 @@ public class ProductController {
                     assert client != null;
 
                     client.setKart(new ArrayList<>());
-                    Principal.getInstance().updateClient(client);
+                    clientService.updateClient(client);
                     ctx.sessionAttribute("cart",client.getKart());
 
                     ctx.redirect("/productos");
