@@ -35,28 +35,30 @@ public class ProductController {
                     Map<String, Object> model = new HashMap<>();
                     model.put("title", "Tienda Online");
                     model.put("products",productService.findAllProducts());
+                    // se pasa el usuario del sessionAtribute
                     User user = ctx.sessionAttribute("user");
+                    // cookie para validar la sesion se guardo o no
                     String username = ctx.cookie("username");
                     if(username != null){
                        user = userService.findUserByUsername(username);
 
                     }
-                    /*else{
-                        user = null;
-                    }*/
 
+                    // logged es una variable booleana para verificar en el html si el usuario está logueado
                     if(user != null){
                         model.put("logged",true);
                     }
                     else{
                         model.put("logged",false);
                     }
-
+                    // car es una variable booleana para verificar que existe un carrito de compras
                     if(ctx.sessionAttribute("cart") == null){
                         model.put("car",false);
                     }
                     else{
                         model.put("car",true);
+                        ArrayList<Product> products = ctx.sessionAttribute("cart");
+                        model.put("lenght", products.size());
                     }
 
                     ctx.render("/public/home.html",model);
