@@ -1,0 +1,30 @@
+.card{
+    background-color: #fafafa;
+  margin: 1rem;
+  padding: 1rem;
+  /* IMPORTANTE */
+  text-align: center;
+  display: block !important;
+  border-radius: 25px;
+}
+
+span {
+    min-height: 100%;
+    display: block;
+    float: left;
+    width: 20%;
+}
+
+header{
+    height: 55px;
+    width: 100%;
+    background: linear-gradient(90deg, rgb(19, 163, 67) 0%, rgb(127, 212, 141) 100%);
+    background-size: cover;
+}
+
+.btn-success{
+    border-radius: 25px;
+    text-align: center;
+    margin-left: 42%;
+    width: 20%;
+}

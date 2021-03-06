@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group 'org.web'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile "org.slf4j:slf4j-simple:1.7.28"
+    compile "org.thymeleaf:thymeleaf:3.0.9.RELEASE"
+    //javalin
+    compile 'io.javalin:javalin:3.8.0'
+    //apache velocity
+    implementation group: 'org.apache.velocity', name: 'velocity', version: '1.7'
+    //Thymeleaf
+    implementation group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.12.RELEASE'
+    // H2
+    compile 'com.h2database:h2:1.4.200'
+    //Java Simplified Encryption
+    implementation group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
+}

@@ -23,7 +23,6 @@ public class Principal {
 
 
     }
-/*
     public static Principal getInstance(){
         if(principal == null){
             principal = new Principal();
@@ -186,6 +185,6 @@ public class Principal {
 
     public ArrayList<Sale> getSales() {
         return sales;
-    }*/
+    }
 
 }
