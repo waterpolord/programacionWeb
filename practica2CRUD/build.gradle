@@ -1,6 +1,9 @@
 plugins {
     id 'java'
+    id 'application'
 }
+
+mainClassName='org.web.practica2.Main'
 
 group 'org.web'
 version '1.0-SNAPSHOT'

@@ -136,6 +136,7 @@ public class ClientService {
             }
 
         }
+
         return client;
     }
 
