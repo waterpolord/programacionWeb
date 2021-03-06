@@ -86,21 +86,29 @@ public class ProductController {
                     Product product1 = new Product(product,quantity);
                     selectedproducts.add(product1);
                     String mail = ctx.formParam("email");
+                    // se obtiene el email y se verifica, para saber si el cliente existe o no, si ya existe simplemente se agrega ese producto a su carrito
+                    // si no existe, se agrega a la base de datos
                     if(clientService.findClientByMail(mail) == null){
                         Client client =  new Client(ctx.formParam("cliente"),mail,selectedproducts);
                         clientService.createClient(client);
                         /*Principal.getInstance().addSell(
                                 new Sell(client,selectedproducts, LocalDate.now())
                         );*/
+                        // se pasa el carrito y el cliente al sessionAttribute
                         ctx.sessionAttribute("cart",client.getKart());
                         ctx.sessionAttribute("client",client);
                     }
                     else{
                         Client client = clientService.findClientByMail(mail);
+                        client.setKart(new ArrayList<>());
                         for(Product aux:selectedproducts){
                             client.addToKart(aux);
                         }
+                        // actualiza el cliente si existe para meter los productos al carrito
                         clientService.updateClient(client);
+                        // se pasa el carrito y el cliente al sessionAttribute
+
+                        client = clientService.findClientByMail(mail);
                         ctx.sessionAttribute("cart",client.getKart());
                         ctx.sessionAttribute("client",client);
 
