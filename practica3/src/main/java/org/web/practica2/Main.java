@@ -43,7 +43,7 @@ public class Main {
         }
         UserService userService = new UserService();
         StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-        User user = new User("Robert","Admin",passwordEncryptor.encryptPassword("admin"));
+        User user = new User("Robert","admin",passwordEncryptor.encryptPassword("admin"));
         if(userService.findUserByUsername(user.getUsername()) == null){
             userService.createUser(user);
         }

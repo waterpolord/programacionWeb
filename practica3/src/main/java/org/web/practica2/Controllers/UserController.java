@@ -50,7 +50,7 @@ public class UserController {
                     if(user != null){
                         StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
                         if(ctx.formParam("session") != null ){
-                            ctx.cookie("username", passwordEncryptor.encryptPassword(user.getUsername()),604800);
+                            ctx.cookie("username",user.getUsername(),604800);
 
                         }
                         ctx.sessionAttribute("user", user);

@@ -41,9 +41,7 @@ public class ProductController {
                        user = userService.findUserByUsername(username);
 
                     }
-                    else{
-                        user = null;
-                    }
+
 
                     if(user != null){
                         model.put("logged",true);
