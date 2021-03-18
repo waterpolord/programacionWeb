@@ -1,13 +1,16 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
-
+mainClassName='org.web.practica2.Main'
 group 'org.web'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
+
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
@@ -23,4 +26,7 @@ dependencies {
     compile 'com.h2database:h2:1.4.200'
     //Java Simplified Encryption
     implementation group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
+    //ORM - Hibernate.
+    compile 'org.hibernate:hibernate-core:5.4.17.Final'
+    compile 'org.hibernate:hibernate-entitymanager:5.4.17.Final'
 }
