@@ -66,7 +66,7 @@ public class Client {
         this.kart = kart;
     }
 
-    public ArrayList<Product> getKart() {
+    public List<Product> getKart() {
         return kart;
     }
 

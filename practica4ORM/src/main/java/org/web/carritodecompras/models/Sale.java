@@ -2,15 +2,16 @@ package org.web.carritodecompras.models;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Sale {
     private int id;
     private Client client;
 
-    private ArrayList<Product> products;
+    private List<Product> products;
     private LocalDate date;
 
-    public Sale(Client client, ArrayList<Product> products, LocalDate date) {
+    public Sale(Client client, List<Product> products, LocalDate date) {
 
         this.client = client;
         this.products = products;
@@ -40,7 +41,7 @@ public class Sale {
         this.client = client;
     }
 
-    public ArrayList<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 

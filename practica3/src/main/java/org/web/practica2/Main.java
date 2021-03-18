@@ -25,7 +25,7 @@ public class Main {
             config.registerPlugin(new RouteOverviewPlugin("/rutas"));
             config.enableCorsForAllOrigins();
             JavalinRenderer.register(JavalinThymeleaf.INSTANCE, ".html");
-        }).start(7777);
+        }).start(7000);
 
         DataBaseManager.startDb();
         DataBaseManager.createTables();

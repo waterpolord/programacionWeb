@@ -7,8 +7,7 @@ import java.sql.*;
 public class DataBaseService {
     public static  DataBaseService dataBaseService;
 
-    private String CONNECTION = "jdbc:h2:tcp://localhost/C:/online_shop";
-
+    private String CONNECTION = "jdbc:h2:tcp://localhost/~/online_shop";
     public static DataBaseService getInstance(){
         if(dataBaseService == null ){
             dataBaseService = new DataBaseService();

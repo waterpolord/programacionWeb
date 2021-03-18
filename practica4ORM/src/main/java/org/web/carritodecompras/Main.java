@@ -1,17 +1,18 @@
-package org.web.practica2;
+package org.web.carritodecompras;
 
 import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
 import io.javalin.plugin.rendering.JavalinRenderer;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
 import org.jasypt.util.password.StrongPasswordEncryptor;
-import org.web.practica2.Controllers.ProductController;
-import org.web.practica2.Controllers.UserController;
-import org.web.practica2.Services.Connection.DataBaseManager;
-import org.web.practica2.Services.ProductService;
-import org.web.practica2.Services.UserService;
-import org.web.practica2.models.Product;
-import org.web.practica2.models.User;
+import org.web.carritodecompras.Services.Connection.DataBaseManager;
+import org.web.carritodecompras.Controllers.ProductController;
+import org.web.carritodecompras.Controllers.UserController;
+import org.web.carritodecompras.Services.Connection.DataBaseManager;
+import org.web.carritodecompras.Services.ProductService;
+import org.web.carritodecompras.Services.UserService;
+import org.web.carritodecompras.models.Product;
+import org.web.carritodecompras.models.User;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,10 +44,10 @@ public class Main {
         }
         UserService userService = new UserService();
         StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-        User user = new User("Robert","Admin",passwordEncryptor.encryptPassword("admin"));
+        /*User user = new User("Robert","Admin",passwordEncryptor.encryptPassword("admin"));
         if(userService.findUserByUsername(user.getUsername()) == null){
             userService.createUser(user);
-        }
+        }*/
 
         app.get("/",ctx -> {
             ctx.redirect("productos");
