@@ -3,11 +3,13 @@ package org.web.carritodecompras.models;
 import org.web.carritodecompras.Services.Principal;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Client {
+@NamedQueries({@NamedQuery(name = "Client.findClientByMail", query = "select p from Client  p where p.mail like :mail")})
+public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -16,7 +18,8 @@ public class Client {
     private String name;
     @Column()
     private String mail;
-    @OneToMany()
+    @OneToMany(fetch=FetchType.LAZY)
+    @JoinColumn(name = "id_products")
     private List<Product> kart;
 
     public Client(int id,String name, String mail, ArrayList<Product> kart) {
@@ -32,6 +35,8 @@ public class Client {
         this.mail = mail;
         this.kart = kart;
     }
+
+    public Client(){}
 
     public int getId() {
         return id;

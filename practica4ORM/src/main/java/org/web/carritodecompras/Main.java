@@ -25,10 +25,10 @@ public class Main {
         DataBaseManager.startDb();
         //ProductService productService = ProductService.getInstance();
         ArrayList<Product> products =  new ArrayList<>();
-        products.add(new Product(1,"Leche",200.0,5));
-        products.add(new Product(2,"Queso",225.0,50));
-        products.add(new Product(3,"Jamon",242.0,4));
-        products.add(new Product(4,"Lechuga",2.0,15));
+        products.add(new Product("Leche",200.0,5));
+        products.add(new Product("Queso",225.0,50));
+        products.add(new Product("Jamon",242.0,4));
+        products.add(new Product("Lechuga",2.0,15));
         for(Product product:products){
             ProductService.getInstance().create(product);
         }

@@ -1,9 +1,11 @@
 package org.web.carritodecompras.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class User {
+@NamedQueries({@NamedQuery(name = "User.findUserByUsername", query = "select p from User  p where p.username like :username")})
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -13,7 +15,7 @@ public class User {
     @Column( length = 10)
     private String username;
 
-    @Column(length = 50)
+    @Column(length = 75)
     private String password;
 
     public User(String name, String username, String password) {

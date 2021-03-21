@@ -2,12 +2,16 @@ package org.web.carritodecompras.Services;
 
 import org.web.carritodecompras.Services.Connection.DataBaseRepository;
 import org.web.carritodecompras.models.Product;
+import org.web.carritodecompras.models.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

@@ -1,20 +1,22 @@
 package org.web.carritodecompras.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Product {
+public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(length = 55)
     private String name;
-    @Column()
+    @Column(nullable = false)
     private Double price;
-    @Column()
+    @Column(nullable = false)
     private int quantity;
 
+    public Product(){}
 
     public Product(String name, Double price, int quantity) {
         this.name = name;

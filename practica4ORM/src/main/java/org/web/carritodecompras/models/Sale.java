@@ -1,19 +1,21 @@
 package org.web.carritodecompras.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Sale {
+public class Sale implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne() // Relacion muchos a uno una venta tiene un cliente y un cliente aparece en muchas ventas
     private Client client;
-    @OneToMany()
+    @OneToMany(fetch=FetchType.LAZY)
+    @JoinColumn(name = "id_products")
     private List<Product> products;
     @Column()
     private LocalDate date;
@@ -31,6 +33,7 @@ public class Sale {
         this.products = products;
         this.date = date;
     }
+    public Sale(){}
 
     public int getId() {
         return id;

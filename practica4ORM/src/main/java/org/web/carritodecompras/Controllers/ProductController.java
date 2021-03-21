@@ -38,7 +38,7 @@ public class ProductController {
                     User user = ctx.sessionAttribute("user");
                     String username = ctx.cookie("username");
                     if(username != null){
-                       user = userService.find(username);
+                       user = userService.findUserByUsername(username);
 
                     }
                     else{
@@ -84,7 +84,7 @@ public class ProductController {
                     Product product1 = new Product(product,quantity);
                     selectedproducts.add(product1);
                     String mail = ctx.formParam("email");
-                    if(clientService.find(mail) == null){
+                    if(clientService.findClientByMail(mail) == null){
                         Client client =  new Client(ctx.formParam("cliente"),mail,selectedproducts);
                         clientService.create(client);
                         /*Principal.getInstance().addSell(
@@ -94,7 +94,7 @@ public class ProductController {
                         ctx.sessionAttribute("client",client);
                     }
                     else{
-                        Client client = clientService.find(mail);
+                        Client client = clientService.findClientByMail(mail);
                         for(Product aux:selectedproducts){
                             client.addToKart(aux);
                         }
