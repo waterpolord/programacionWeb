@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" type="text/css" media="all"
+          href="public/css/plantilla.css" th:href="@{public/css/plantilla.css}" />
+
+    <title>Carrito</title>
+</head>
+<body>
+
+
+<header th:replace="plantilla.html::header" ></header>
+
+
+
+<div class="row">
+
+    <div class="card-body">
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <a href="/productos" class="btn btn-primary">Volver</a>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="aux : ${products}">
+                <td th:text="${aux.name}">Nombre</td>
+                <td th:text="${aux.price}">Precio</td>
+                <td th:text="${aux.quantity}">Cantidad</td>
+                <td>
+                    <a th:text="Eliminar" th:href="'/productos/carrito/eliminar/'+${aux.id}" th class="btn btn-danger btn-sm"/> |
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
+
+<div class="row">
+    <div class="card-body">
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <a href="/productos/carrito/comprar" class="btn btn-primary">Comprar</a>
+            </div>
+            <div class="col-sm-6">
+                <a href="/productos/carrito/clean" class="btn btn-primary">Limpiar carrito</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="plantilla.html::javascript">
+
+</div>
+
+</body>
+
+
+</html>

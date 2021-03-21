@@ -1,0 +1,74 @@
+
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" media="all"
+          href="css/plantilla.css" th:href="@{css/plantilla.css}" />
+
+    <title>login</title>
+
+</head>
+<body>
+    <header th:replace="plantilla.html::header" ></header>
+    <form method="post" action="user/login">
+    <div class="row">
+        <div class="col"> </div>
+
+
+
+        <div class="col-sm-12 col-md-12 .col-lg-5 col-xl-5">   
+            <div class="card">
+                <div class="card-header  mb-3">
+                    <b>
+                    Iniciar Sesion
+                    </b>
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+        
+                        <div class = "input-group">
+                            <input type="text" class="form-control" placeholder="nombre de usuario" name="username">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class = "input-group">
+                            <input type="password" class="form-control" placeholder="contraseña" name="password">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+          
+                        <div class = "input-group">
+                            <button type="submit"  class="btn btn-success">Entrar</button>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class = "input-group">
+
+                            <input type="checkbox" name="session">
+                            <label>Mantener sesion iniciada</label><br>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col"> </div>
+
+    </div>
+
+    </form>
+
+    <div th:replace="plantilla.html::javascript">
+
+    </div>
+</body>
+</html>

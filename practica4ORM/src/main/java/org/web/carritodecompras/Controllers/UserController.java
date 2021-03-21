@@ -14,8 +14,8 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class UserController {
     private Javalin app;
-    private UserService userService = new UserService();
-    private SaleService saleService = new SaleService();
+    private UserService userService = UserService.getInstance();
+    private SaleService saleService = SaleService.getInstance();
 
     public UserController(Javalin app ){
         this.app = app;
@@ -35,7 +35,7 @@ public class UserController {
 
                 get("/ventas",ctx -> {
                     Map<String, Object> model = new HashMap<>();
-                    model.put("sales",saleService.findAllSales());
+                    model.put("sales",saleService.findAll());
                     model.put("title","Tienda Online");
                     ctx.render("public/sales.html",model);
                 });

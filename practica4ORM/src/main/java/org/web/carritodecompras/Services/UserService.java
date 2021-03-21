@@ -1,8 +1,7 @@
 package org.web.carritodecompras.Services;
 
-import org.jasypt.util.password.PasswordEncryptor;
 import org.jasypt.util.password.StrongPasswordEncryptor;
-import org.web.carritodecompras.Services.Connection.DataBaseService;
+import org.web.carritodecompras.Services.Connection.DataBaseRepository;
 import org.web.carritodecompras.models.User;
 
 import java.sql.Connection;
@@ -12,59 +11,21 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UserService {
+public class UserService extends DataBaseRepository<User> {
 
-    public Boolean createUser(User user){
-        Boolean ok = false;
-        Connection connection = null;
-        try{
-            String query = "INSERT INTO user_app(name,username,password) VALUES(?,?,?)";
-            connection = DataBaseService.getInstance().getConexion();
-            PreparedStatement prepareStatement = connection.prepareStatement(query);
-            prepareStatement.setString(1,user.getName());
-            prepareStatement.setString(2,user.getUsername());
-            prepareStatement.setString(3,  user.getPassword());
-            int fila = prepareStatement.executeUpdate();
-            ok = fila > 0 ;
-        }
-        catch (SQLException e){
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, e);
-        }
-        return ok;
+    private static UserService userService;
+    public UserService() {
+        super(User.class);
     }
-
-    public User findUserByUsername(String username) {
-        User user = null;
-        Connection connection = null;
-        try{
-            String query = "SELECT * FROM user_app WHERE user_app.username = ?";
-            connection = DataBaseService.getInstance().getConexion();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,username);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()){
-                user = new User(
-                        rs.getString("name"),
-                        rs.getString("username"),
-                        rs.getString("password")
-                );
-            }
-        } catch (SQLException e){
-            System.out.println("cannot access database");
+    public static UserService getInstance(){
+        if(userService == null){
+            userService = new UserService();
         }
-        finally {
-            try{
-                connection.close();
-            }catch (SQLException e){
-                System.out.println("cannot close database");
-            }
-
-        }
-        return user;
+        return userService;
     }
 
     public User loginRequest(String username, String password){
-        User user = findUserByUsername(username);
+        User user = find(username);
         StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
         if(user == null) return null;
         if(passwordEncryptor.checkPassword(password,user.getPassword())){

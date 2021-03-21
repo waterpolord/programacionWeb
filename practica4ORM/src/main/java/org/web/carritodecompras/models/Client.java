@@ -16,12 +16,7 @@ public class Client {
     private String name;
     @Column()
     private String mail;
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "Employee_Project",
-            joinColumns = { @JoinColumn(name = "employee_id") },
-            inverseJoinColumns = { @JoinColumn(name = "project_id") }
-    )
+    @OneToMany()
     private List<Product> kart;
 
     public Client(int id,String name, String mail, ArrayList<Product> kart) {

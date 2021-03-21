@@ -29,4 +29,5 @@ dependencies {
     //ORM - Hibernate.
     compile 'org.hibernate:hibernate-core:5.4.17.Final'
     compile 'org.hibernate:hibernate-entitymanager:5.4.17.Final'
+
 }

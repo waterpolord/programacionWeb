@@ -1,14 +1,21 @@
 package org.web.carritodecompras.models;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Sale {
-    private int id;
-    private Client client;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @ManyToOne() // Relacion muchos a uno una venta tiene un cliente y un cliente aparece en muchas ventas
+    private Client client;
+    @OneToMany()
     private List<Product> products;
+    @Column()
     private LocalDate date;
 
     public Sale(Client client, List<Product> products, LocalDate date) {

@@ -21,39 +21,32 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        Javalin app = Javalin.create(config -> {
-            config.addStaticFiles("/public");
-            config.registerPlugin(new RouteOverviewPlugin("/rutas"));
-            config.enableCorsForAllOrigins();
-            JavalinRenderer.register(JavalinThymeleaf.INSTANCE, ".html");
-        }).start(7777);
 
         DataBaseManager.startDb();
-        DataBaseManager.createTables();
-        ProductService productService = new ProductService();
+        //ProductService productService = ProductService.getInstance();
         ArrayList<Product> products =  new ArrayList<>();
         products.add(new Product(1,"Leche",200.0,5));
         products.add(new Product(2,"Queso",225.0,50));
         products.add(new Product(3,"Jamon",242.0,4));
         products.add(new Product(4,"Lechuga",2.0,15));
         for(Product product:products){
-            if(productService.findProductById(product.getId()) == null){
-                productService.createProduct(product);
-
-            }
+            ProductService.getInstance().create(product);
         }
-        UserService userService = new UserService();
+        //UserService userService = UserService.getInstance();
         StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-        /*User user = new User("Robert","Admin",passwordEncryptor.encryptPassword("admin"));
-        if(userService.findUserByUsername(user.getUsername()) == null){
-            userService.createUser(user);
-        }*/
+        User user = new User("Robert","Admin",passwordEncryptor.encryptPassword("admin"));
+        UserService.getInstance().create(user);
+
+        Javalin app = Javalin.create(config -> {
+            config.addStaticFiles("/public");
+            config.registerPlugin(new RouteOverviewPlugin("/rutas"));
+            config.enableCorsForAllOrigins();
+            JavalinRenderer.register(JavalinThymeleaf.INSTANCE, ".html");
+        }).start(7000);
 
         app.get("/",ctx -> {
             ctx.redirect("productos");
         });
-
-
 
         new UserController(app).applyRoutes();
         new ProductController(app).applyRoutes();
