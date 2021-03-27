@@ -25,16 +25,16 @@ public class Main {
         DataBaseManager.startDb();
         //ProductService productService = ProductService.getInstance();
         ArrayList<Product> products =  new ArrayList<>();
-        products.add(new Product("Leche",200.0,5));
-        products.add(new Product("Queso",225.0,50));
-        products.add(new Product("Jamon",242.0,4));
-        products.add(new Product("Lechuga",2.0,15));
+        products.add(new Product("Leche",200.0,5,"leche de vaca"));
+        products.add(new Product("Queso",225.0,50,""));
+        products.add(new Product("Jamon",242.0,4,"jamon induveca"));
+        products.add(new Product("Lechuga",2.0,15,""));
         for(Product product:products){
             ProductService.getInstance().create(product);
         }
         //UserService userService = UserService.getInstance();
         StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-        User user = new User("Robert","Admin",passwordEncryptor.encryptPassword("admin"));
+        User user = new User("Robert","admin",passwordEncryptor.encryptPassword("admin"));
         UserService.getInstance().create(user);
 
         Javalin app = Javalin.create(config -> {

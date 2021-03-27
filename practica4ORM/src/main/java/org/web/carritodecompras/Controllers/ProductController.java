@@ -1,17 +1,15 @@
 package org.web.carritodecompras.Controllers;
 
 import io.javalin.Javalin;
+import org.hibernate.Session;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.web.carritodecompras.Services.*;
-import org.web.carritodecompras.models.Client;
-import org.web.carritodecompras.models.Product;
-import org.web.carritodecompras.models.Sale;
-import org.web.carritodecompras.models.User;
+import org.web.carritodecompras.Services.Connection.DataBaseManager;
+import org.web.carritodecompras.models.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -22,6 +20,9 @@ public class ProductController {
     private ClientService clientService = ClientService.getInstance();
     private SaleService saleService = SaleService.getInstance();
     private UserService userService = UserService.getInstance();
+    private PhotoService photoService = PhotoService.getInstance();
+    private CommentService commentService = CommentService.getInstance();
+    private Map<String, Object> model = new HashMap<>();
 
     public ProductController(Javalin app ){
         this.app = app;
@@ -30,20 +31,19 @@ public class ProductController {
     public void applyRoutes(){
         app.routes(() -> {
             path("/productos", () -> {
-                get("/", ctx -> {
 
-                    Map<String, Object> model = new HashMap<>();
-                    model.put("title", "Tienda Online");
-                    model.put("products",productService.findAll());
-                    User user = ctx.sessionAttribute("user");
+                before("/*",ctx -> {
                     String username = ctx.cookie("username");
+                    User user = null;
+
+
                     if(username != null){
-                       user = userService.findUserByUsername(username);
+                        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+
+                        user = userService.findUserByUsername(username);
 
                     }
-                    else{
-                        user = null;
-                    }
+
 
                     if(user != null){
                         model.put("logged",true);
@@ -51,6 +51,15 @@ public class ProductController {
                     else{
                         model.put("logged",false);
                     }
+                });
+
+                get("/", ctx -> {
+
+
+                    model.put("title", "Tienda Online");
+                    model.put("products",productService.findAll());
+                    User user = ctx.sessionAttribute("user");
+
 
                     if(ctx.sessionAttribute("cart") == null){
                         model.put("car",false);
@@ -62,18 +71,38 @@ public class ProductController {
                     ctx.render("/public/home.html",model);
                 });
 
+                /*post("/procesarFoto", ctx -> {
+                    ctx.uploadedFiles("foto").forEach(uploadedFile -> {
+                        try {
+                            byte[] bytes = uploadedFile.getContent().readAllBytes();
+                            String encodedString = Base64.getEncoder().encodeToString(bytes);
+                            Photo foto = new Photo(uploadedFile.getFilename(), uploadedFile.getContentType(), encodedString);
+                            photoService.create(foto);
+                            Product product = productService.find(ctx.pathParam("id", Integer.class).get());
+                            product.addPhoto(foto);
+                            productService.update(product);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        ctx.redirect("/fotos/listar");
+                    });
+                });*/
+
                 get("/comprar/:id", ctx -> {
-                    Map<String, Object> model = new HashMap<>();
+
                     Product product = productService.find(ctx.pathParam("id", Integer.class).get());
+                    product = productService.update(product);
                     model.put("title", "Tienda Online");
                     model.put("product",product);
                     model.put("accion", "/productos/comprar/"+product.getId());
                     model.put("onBuy",true);
+                    System.out.println("comentarios: ");
+                    System.out.println(product.getComments());
                     ctx.render("/public/formproduct.html",model);
                 });
 
                 post("/comprar/:id", ctx -> {
-                    Map<String, Object> model = new HashMap<>();
+
                     Product product = productService.find(ctx.pathParam("id", Integer.class).get());
                     int quantity = ctx.formParam("compra", Integer.class).get();
                     ArrayList<Product> selectedproducts = new ArrayList<>();
@@ -117,25 +146,45 @@ public class ProductController {
                     Product product = new Product(
                             ctx.formParam("nombre"),
                             ctx.formParam("precio", Double.class).get(),
-                            ctx.formParam("cantidad", Integer.class).get()
+                            ctx.formParam("cantidad", Integer.class).get(),
+                            ctx.formParam("descripcion", String.class).get()
                     );
+                    var files = ctx.uploadedFiles("foto");
+                    ctx.uploadedFiles("foto").forEach(uploadedFile -> {
+                        try {
 
-                    productService.create(product);
+                            byte[] bytes = uploadedFile.getContent().readAllBytes();
+                            String encodedString = Base64.getEncoder().encodeToString(bytes);
+                            Photo foto = new Photo(uploadedFile.getFilename(), uploadedFile.getContentType(), encodedString);
+                            photoService.create(foto);
+                            //product = productService.find(ctx.pathParam("id", Integer.class).get());
+                            product.addPhoto(foto);
+                            //productService.update(product);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        productService.create(product);
+                    });
+
+
                     ctx.redirect("/productos");
 
                 });
 
                 get("/crear", ctx -> {
-                    Map<String, Object> model = new HashMap<>();
+                   // Map<String, Object> model = new HashMap<>();
                     model.put("title", "Tienda Online");
                     model.put("accion", "/productos/crear");
                     model.put("onBuy",false);
+                    model.put("photos",new ArrayList<Photo>());
+                    model.put("comments",new ArrayList<Comment>());
                     ctx.render("public/formproduct.html",model);
                 });
 
 
                 get("/editar/:id", ctx -> {
-                    Map<String, Object> model = new HashMap<>();
+                   // Map<String, Object> model = new HashMap<>();
                     Product product = productService.find(ctx.pathParam("id", Integer.class).get());
                     model.put("title", "Tienda Online");
                     model.put("product",product);
@@ -145,14 +194,29 @@ public class ProductController {
                 });
 
                 post("/editar/:id", ctx -> {
+
+
+                    ctx.redirect("/productos");
                     Product product = new Product(
-                            ctx.pathParam("id", Integer.class).get(),
                             ctx.formParam("nombre"),
                             ctx.formParam("precio", Double.class).get(),
-                            ctx.formParam("cantidad", Integer.class).get()
+                            ctx.formParam("cantidad", Integer.class).get(),
+                            ctx.formParam("descripcion", String.class).get()
                     );
+                    ctx.uploadedFiles("foto").forEach(uploadedFile -> {
+                        try {
+
+                            byte[] bytes = uploadedFile.getContent().readAllBytes();
+                            String encodedString = Base64.getEncoder().encodeToString(bytes);
+                            Photo foto = new Photo(uploadedFile.getFilename(), uploadedFile.getContentType(), encodedString);
+                            product.addPhoto(foto);
+
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
                     productService.update(product);
-                    ctx.redirect("/productos");
 
                 });
 
@@ -165,8 +229,36 @@ public class ProductController {
 
                 });
 
+                get("/:id/comentario/:idcomment/eliminar", ctx -> {
+
+                    Product product = productService.find(ctx.pathParam("id", Integer.class).get());
+                    product.deleteCommentById(commentService.find(ctx.pathParam("idcomment", Integer.class).get()));
+                    Comment comment = commentService.find(ctx.pathParam("idcomment", Integer.class).get());
+                    comment.setActive(false);
+                    commentService.update(comment);
+                    productService.update(product);
+
+
+                    ctx.redirect("/");
+                    //ctx.render("/public/formproduct.html",model);
+
+                });
+
+                post("/comentar/:id", ctx -> {
+
+
+                    //ctx.redirect("/productos");
+                    Product product = productService.find(ctx.pathParam("id", Integer.class).get());
+                    Comment comment = new Comment(ctx.formParam("mensaje", String.class).get(),
+                            ctx.formParam("namecomment", String.class).get());
+                    commentService.create(comment);
+                    product.addComment(comment);
+                    productService.update(product);
+                    ctx.redirect("/");
+                });
+
                 get("/carrito", ctx -> {
-                    Map<String, Object> model = new HashMap<>();
+                 //   Map<String, Object> model = new HashMap<>();
 
                     List<Product> cart = ctx.sessionAttribute("cart");
                     model.put("products",cart);
@@ -189,6 +281,8 @@ public class ProductController {
                     ctx.redirect("/productos");
 
                 });
+
+
 
                 get("/carrito/comprar", ctx -> {
 
@@ -226,4 +320,5 @@ public class ProductController {
             });
         });
     }
+
 }

@@ -1,7 +1,5 @@
 package org.web.carritodecompras.models;
 
-import org.web.carritodecompras.Services.Principal;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,12 +20,6 @@ public class Client implements Serializable {
     @JoinColumn(name = "id_products")
     private List<Product> kart;
 
-    public Client(int id,String name, String mail, ArrayList<Product> kart) {
-        this.id = id;
-        this.name = name;
-        this.mail = mail;
-        this.kart = kart;
-    }
 
     public Client(String name, String mail, ArrayList<Product> kart) {
 

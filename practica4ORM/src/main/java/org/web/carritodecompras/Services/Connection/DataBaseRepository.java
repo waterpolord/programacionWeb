@@ -99,6 +99,8 @@ public class DataBaseRepository<T> {
     public T find(Object parameter) throws PersistenceException {
         EntityManager em = getEntityManager();
         try{
+            em.getTransaction().begin();
+            em.getTransaction().commit();
             return em.find(entityClass, parameter);
         } finally {
             em.close();

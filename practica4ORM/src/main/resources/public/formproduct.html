@@ -1,69 +1,286 @@
 <!DOCTYPE html>
 
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" media="all"
-              href="css/plantilla.css" th:href="@{css/plantilla.css}" />
-        <title>Carrito</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" media="all"
+          href="css/plantilla.css" th:href="@{css/plantilla.css}" />
+    <style>
+        header{
+            height: 55px;
+            width: 100%;
+            background: linear-gradient(90deg, rgb(19, 163, 67) 0%, rgb(127, 212, 141) 100%);
+            background-size: cover;
+        }
 
-        <link rel="stylesheet" type="text/css" media="all"
-              href="public/css/plantilla.css" th:href="@{public/css/plantilla.css}" />
-    </head>
+        #user{
+            margin-left: 10%;
+
+
+        }
+
+
+        #cart{
+            margin-left: 40%;
+        }
+
+        /*#title{
+            font-style:italic;
+            font-weight:bold;
+            font-size:150%;
+            margin-top:10px;
+            margin-left: 30%;
+            font-family:'Helvetica','Verdana','Monaco',sans-serif;
+            display: block !important;
+            margin-left: 8px;
+            cursor: pointer;
+            margin-top: auto;
+
+        }*/
+        #title {
+            width: 100%;
+            position: absolute;
+            padding: 0px;
+            margin: 0px auto;
+            text-align: center;
+            font-size: 27px;
+            color: rgba(255, 255, 255, 1);
+            font-family: 'Open Sans', sans-serif;
+            z-index: 9999;
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.33), -1px 0px 2px rgba(255, 255, 255, 0);
+
+        }
+        @media only screen and (min-width: 500px) {
+
+            #user{
+                margin-left: 60%;
+
+            }
+
+            #cart{
+                margin-left: 45%;
+            }
+
+            #title {
+                width: 100%;
+                position: absolute;
+                padding: 0px;
+                margin: 0px auto;
+                text-align: center;
+                font-size: 27px;
+                color: rgba(255, 255, 255, 1);
+                font-family: 'Open Sans', sans-serif;
+                z-index: 9999;
+                text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.33), -1px 0px 2px rgba(255, 255, 255, 0);
+            }
+
+        }
+
+        @media only screen and (min-width: 850px) {
+
+            #title {
+                width: 100%;
+                position: absolute;
+                padding: 0px;
+                margin: 0px auto;
+                text-align: center;
+                font-size: 27px;
+                color: rgba(255, 255, 255, 1);
+                font-family: 'Open Sans', sans-serif;
+                z-index: 9999;
+                text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.33), -1px 0px 2px rgba(255, 255, 255, 0);
+            }
+        }
+
+
+        #title {
+            width: 100%;
+            position: absolute;
+            padding: 0px;
+            margin: 0px auto;
+            text-align: center;
+            font-size: 27px;
+            color: rgba(255, 255, 255, 1);
+            font-family: 'Open Sans', sans-serif;
+            z-index: 9999;
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.33), -1px 0px 2px rgba(255, 255, 255, 0);
+        }
+
+        body{
+            background-color: lightgrey;
+            font-family: sans-serif;
+        }
+
+        .container{
+            margin: auto;
+            background-color: white;
+            width: 800px;
+            padding: 30px;
+        }
+
+        div.scrollimg {
+            background-color: #333;
+            overflow: auto;
+            white-space: nowrap;
+        }
+
+        div.scrollimg a {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+        }
+
+        div.scrollimg a:hover {
+            background-color: #777;
+        }
+
+        img{
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        @import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);
+
+        body {
+            background-color: #D32F2F;
+            font-family: 'Calibri', sans-serif !important
+        }
+
+        .mt-100 {
+            margin-top: 100px
+        }
+
+        .mb-100 {
+            margin-bottom: 100px
+        }
+
+        .card {
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 0px solid transparent;
+            border-radius: 0px
+        }
+
+        .card-body {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            padding: 1.25rem
+        }
+
+        .card .card-title {
+            position: relative;
+            font-weight: 600;
+            margin-bottom: 10px
+        }
+
+        .comment-widgets {
+            position: relative;
+            margin-bottom: 10px
+        }
+
+        .comment-widgets .comment-row {
+            border-bottom: 1px solid transparent;
+            padding: 14px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            margin: 10px 0
+        }
+
+
+        .comment-text {
+            padding-left: 15px
+        }
+
+        .w-100 {
+            width: 100% !important
+        }
+
+        .m-b-15 {
+            margin-bottom: 15px
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.76563rem;
+            line-height: 1.5;
+            border-radius: 1px
+        }
+
+        hover {
+            color: #fff;
+            background-color: #1a93ca;
+            border-color: #198bbe
+        }
+
+        .comment-widgets .comment-row:hover {
+            background: rgba(0, 0, 0, 0.05)
+        }
+
+        .scroll {
+            max-height: 75%;
+            overflow-y: auto;
+        }
+
+    </style>
+    <title>carrito</title>
+
+</head>
 
     <body>
-    <header class="container-fluid" th:fragment="header">
-        <div class="row">
-            <div class="col-6">
-                <a id="title" href="/productos"  th:text="${title}">
+    <header th:replace="plantilla.html::header" ></header>
 
-                    Titulo no encontrado
-
-                </a>
-
-            </div>
-
-            <div class="col-3">
-
-                <div id="cart">
-                    <a th:hidden="${!car}" href="/productos/carrito" >
-                        <svg  xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
-                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                        </svg>
-                    </a>
-
-                </div>
-            </div>
-
-            <div class="col-3">
-                <a  th:hidden="!${logged}" href="/user/ventas" >
-                    <svg id="user"  href="/productos/ventas" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-                    </svg>
-                </a>
-
-                <a th:hidden="${logged}" href="/user" >Iniciar Sesion Admin</a>
-            </div>
-        </div>
-
-        </div>
-
-
-
-    </header>
 
         <div class="card bg-dark text-white">
             <div class="card-body">
-                <form enctype="application/x-www-form-urlencoded" method="post" th:attr="action=${accion}">
+
+                <form enctype="multipart/form-data" method="post" th:attr="action=${accion}">
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <a href="/productos" class="btn btn-primary">Volver</a>
                         </div>
                     </div>
 
+                    <div class="jumbotron text-black-50">
+                        <p class="lead">Fotos</p>
+                        <div class="container" th:hidden="${!onBuy}">
+
+                            <div  class="scrollimg" th:each="aux : ${product} ? ${product.photos} : ${photos}">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Romaine_lettuce.jpg/800px-Romaine_lettuce.jpg"/>
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3947459/sunset.jpg"/>
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3947459/sunset.jpg"/>
+                                <img th:src="@{'data:'+${aux.getMimeType()}+';base64,'+${aux.getFotoBase64()}}" class="card-img-top" alt="Foto enviada">
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+
+
                     <div class="form-group row" >
+
+                        <div th:hidden="${onBuy}">
+                            <label >Subir fotos</label>
+                            <input class="form-control" id="foto" type="file" name="foto" multiple>
+                        </div>
+
                         <label th:hidden="!${onBuy}" for="cliente" class="col-form-label col-sm-2" >Nombre: </label>
                         <div  class="col-sm-6 ">
                             <input th:hidden="!${onBuy}" type="text" class="form-control" name="cliente">
@@ -112,6 +329,16 @@
                     </div>
 
                     <div class="form-group row">
+                        <label for="Descripcion" class="col-form-label col-sm-2">Descripcion</label>
+                        <div class="col-sm-6">
+                            <input  class="form-control" placeholder="Breve descripcion del producto" th:readonly="${onBuy}" th:value="${product} ? ${product.description} : ''" name="descripcion">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group row">
                         <div class="col-sm-6">
 
                                 <button type="submit" class="btn btn-primary" th:text="${product}? (${onBuy}?'Comprar':'Editar'):'Crear' ">Crear</button>
@@ -122,8 +349,50 @@
 
                 </form>
 
+                <div class="row d-flex justify-content-center mt-100 mb-100">
+                    <div class="col-lg-6">
+                        <div class="card text-black-50 scroll">
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Comentarios</h4>
+                            </div>
+                            <div class="comment-widgets" th:each="aux : ${product} ? ${product.comments} : ${comments}" >
+                                <!-- Comment Row -->
+                                <div class="d-flex flex-row comment-row m-t-0">
+                                    <div class="comment-text w-100 text-dark">
+                                        <b>
+                                            <h6 class="font-medium"  th:text="${aux.name}">Nombre</h6>
+                                        </b>
+                                        <span class="m-b-15 d-block" th:text="${aux.message}">Comentario </span>
+                                        <div class="comment-footer"> <span class="text-muted float-right"th:text="${aux.date}">April 14, 2019</span>
+                                            <a th:hidden="!${logged}" th:text="Eliminar" th:href="'/productos/'+${product.id}+'/comentario/'+${aux.id}+'/eliminar'" th class="btn btn-danger btn-sm"/>
+
+                                    </div>
+                                </div> <!-- Comment Row -->
+
+
+                            </div> <!-- Card -->
+
+                        </div>
+
+                    </div>
+                        <form enctype="application/x-www-form-urlencoded" method="post" th:action=" '/productos/comentar/'+${product.id}" >
+                            <div class="form-group row">
+
+                                <div class="col-sm-6">
+                                    <input  class="form-control" placeholder="Nombre"  name="namecomment">
+                                    <input  class="form-control" placeholder="Agregar un comentario"  name="mensaje">
+                                    <button type="submit" class="btn btn-primary" th:text="Comentar">Comentar</button>
+
+                                </div>
+
+                            </div>
+                        </form>
+                </div>
+
             </div>
         </div>
+
+
         <div th:replace="plantilla.html::javascript">
 
         </div>

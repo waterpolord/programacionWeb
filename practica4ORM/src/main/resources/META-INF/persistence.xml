@@ -9,6 +9,8 @@
         <class>org.web.carritodecompras.models.Sale</class>
         <class>org.web.carritodecompras.models.Product</class>
         <class>org.web.carritodecompras.models.Client</class>
+        <class>org.web.carritodecompras.models.Photo</class>
+        <class>org.web.carritodecompras.models.Comment</class>
         <properties>
             <!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test" />-->
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/carritoorm" />
