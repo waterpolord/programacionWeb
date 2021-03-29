@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" media="all"
-          href="css/plantilla.css" th:href="@{css/plantilla.css}" />
+          href="../css/plantilla.css" th:href="@{../css/plantilla.css}" />
     <style>
         header{
             height: 55px;
@@ -251,7 +251,7 @@
 </head>
 
     <body>
-    <header th:replace="plantilla.html::header" ></header>
+    <header th:replace="public/html/plantilla.html::header" ></header>
 
 
         <div class="card bg-dark text-white" id="black-cover">
@@ -402,7 +402,7 @@
         </div>
 
 
-        <div th:replace="plantilla.html::javascript">
+        <div th:replace="public/html/plantilla.html::javascript">
 
         </div>
 

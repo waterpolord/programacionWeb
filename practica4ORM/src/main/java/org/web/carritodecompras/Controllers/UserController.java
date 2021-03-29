@@ -2,7 +2,6 @@ package org.web.carritodecompras.Controllers;
 
 import io.javalin.Javalin;
 import org.jasypt.util.password.StrongPasswordEncryptor;
-import org.web.carritodecompras.Services.Principal;
 import org.web.carritodecompras.Services.SaleService;
 import org.web.carritodecompras.Services.UserService;
 import org.web.carritodecompras.models.User;
@@ -30,14 +29,14 @@ public class UserController {
                     Map<String, Object> model = new HashMap<>();
 
                     model.put("title","Tienda Online");
-                    ctx.render("public/login.html",model);
+                    ctx.render("public/html/login.html",model);
                 });
 
                 get("/ventas",ctx -> {
                     Map<String, Object> model = new HashMap<>();
                     model.put("sales",saleService.findAll());
                     model.put("title","Tienda Online");
-                    ctx.render("public/sales.html",model);
+                    ctx.render("public/html/sales.html",model);
                 });
 
                 //POST

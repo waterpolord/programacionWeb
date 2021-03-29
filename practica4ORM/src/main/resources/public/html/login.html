@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" media="all"
-          href="css/plantilla.css" th:href="@{css/plantilla.css}" />
+          href="../css/plantilla.css" th:href="@{../css/plantilla.css}" />
 
     <title>login</title>
 
 </head>
 <body>
-    <header th:replace="plantilla.html::header" ></header>
+    <header th:replace="public/html/plantilla.html::header" ></header>
     <form method="post" action="user/login">
     <div class="row">
         <div class="col"> </div>
@@ -69,7 +69,7 @@
 
 
 
-    <div th:replace="plantilla.html::javascript">
+    <div th:replace="public/html/plantilla.html::javascript">
 
     </div>
 </body>

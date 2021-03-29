@@ -1,11 +1,8 @@
 package org.web.carritodecompras.Controllers;
 
 import io.javalin.Javalin;
-import org.h2.mvstore.Page;
-import org.hibernate.Session;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.web.carritodecompras.Services.*;
-import org.web.carritodecompras.Services.Connection.DataBaseManager;
 import org.web.carritodecompras.models.*;
 
 import java.io.IOException;
@@ -117,7 +114,7 @@ public class ProductController {
                         model.put("car",true);
                     }
 
-                    ctx.render("/public/home.html",model);
+                    ctx.render("/public/html/home.html",model);
                 });
 
                 /*post("/procesarFoto", ctx -> {
@@ -148,7 +145,7 @@ public class ProductController {
                     model.put("onBuy",true);
                     System.out.println("comentarios: ");
                     System.out.println(product.getComments());
-                    ctx.render("/public/formproduct.html",model);
+                    ctx.render("/public/html/formproduct.html",model);
                 });
 
                 post("/comprar/:id", ctx -> {
@@ -232,7 +229,7 @@ public class ProductController {
                     model.put("photos",new ArrayList<Photo>());
                     model.put("comments",new ArrayList<Comment>());
 
-                    ctx.render("public/formproduct.html",model);
+                    ctx.render("public/html/formproduct.html",model);
                 });
 
 
@@ -244,7 +241,7 @@ public class ProductController {
                     model.put("onBuy",false);
                     model.put("accion", "/productos/editar/"+product.getId());
                     model.put("accioncomment","/productos/comentar/"+product.getId());
-                    ctx.render("/public/formproduct.html",model);
+                    ctx.render("/public/html/formproduct.html",model);
                 });
 
                 post("/editar/:id", ctx -> {
@@ -283,7 +280,7 @@ public class ProductController {
                     });
                     productService.update(old);
                     model.put("product",product);
-                    ctx.render("/public/formproduct.html",model);
+                    ctx.render("/public/html/formproduct.html",model);
 
                 });
 
@@ -307,7 +304,7 @@ public class ProductController {
 
 
                     model.put("product",product);
-                    ctx.render("/public/formproduct.html",model);
+                    ctx.render("/public/html/formproduct.html",model);
 
                 });
 
@@ -322,7 +319,7 @@ public class ProductController {
                     product.addComment(comment);
                     productService.update(product);
                     model.put("product",product);
-                    ctx.render("/public/formproduct.html",model);
+                    ctx.render("/public/html/formproduct.html",model);
                     //ctx.redirect("/");
                 });
 
@@ -332,7 +329,7 @@ public class ProductController {
                     List<Product> cart = ctx.sessionAttribute("cart");
                     model.put("products",cart);
                     model.put("title", "Tienda Online");
-                    ctx.render("/public/cart.html",model);
+                    ctx.render("/public/html/cart.html",model);
                 });
 
                 get("/carrito/eliminar/:id", ctx -> {
