@@ -1,6 +1,7 @@
 package org.web.carritodecompras.Controllers;
 
 import io.javalin.Javalin;
+import org.h2.mvstore.Page;
 import org.hibernate.Session;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.web.carritodecompras.Services.*;
@@ -55,10 +56,58 @@ public class ProductController {
 
                 get("/", ctx -> {
 
-
+                    int totalPages = productService.findAll().size()/5,actualPage = 1,body[] = new int[1];
+                    if(totalPages % 2 != 0 ){
+                        totalPages++;
+                    }
                     model.put("title", "Tienda Online");
-                    model.put("products",productService.findAll());
-                    User user = ctx.sessionAttribute("user");
+
+                    if(ctx.queryParam("page") == null){
+                        actualPage = 1;
+                    }
+                    else {
+                        actualPage = ctx.queryParam("page",Integer.class).get() > totalPages?actualPage:ctx.queryParam("page",Integer.class).get();
+                        
+
+                    }
+                    model.put("products",productService.getPagedProducts(actualPage));
+                    if(totalPages > 7){
+                        body = new int[totalPages];
+                        for (int i = 0; i < totalPages; i++) {
+                            body[i] = 1+i;
+                        }
+
+                    }
+                    else {
+                        body = new int[totalPages];
+                        for (int i = 0; i < totalPages; i++) {
+                            body[i] = 1+i;
+                        }
+                    }
+                    model.put("paginaactual",actualPage);
+                    model.put("total",totalPages);
+                    model.put("body",body);
+                    model.put("url","");
+
+
+                    String username = ctx.cookie("username");
+                    User user = null;
+
+
+                    if(username != null){
+                        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+
+                        user = userService.findUserByUsername(username);
+
+                    }
+
+
+                    if(user != null){
+                        model.put("logged",true);
+                    }
+                    else{
+                        model.put("logged",false);
+                    }
 
 
                     if(ctx.sessionAttribute("cart") == null){
@@ -95,6 +144,7 @@ public class ProductController {
                     model.put("title", "Tienda Online");
                     model.put("product",product);
                     model.put("accion", "/productos/comprar/"+product.getId());
+                    model.put("accioncomment","/productos/comentar/"+product.getId());
                     model.put("onBuy",true);
                     System.out.println("comentarios: ");
                     System.out.println(product.getComments());
@@ -174,49 +224,66 @@ public class ProductController {
 
                 get("/crear", ctx -> {
                    // Map<String, Object> model = new HashMap<>();
+                    model = new HashMap<>();
                     model.put("title", "Tienda Online");
                     model.put("accion", "/productos/crear");
+                    model.put("accioncomment","/productos/comentar/");
                     model.put("onBuy",false);
                     model.put("photos",new ArrayList<Photo>());
                     model.put("comments",new ArrayList<Comment>());
+
                     ctx.render("public/formproduct.html",model);
                 });
 
 
                 get("/editar/:id", ctx -> {
-                   // Map<String, Object> model = new HashMap<>();
+                    model = new HashMap<>();
                     Product product = productService.find(ctx.pathParam("id", Integer.class).get());
                     model.put("title", "Tienda Online");
                     model.put("product",product);
                     model.put("onBuy",false);
                     model.put("accion", "/productos/editar/"+product.getId());
+                    model.put("accioncomment","/productos/comentar/"+product.getId());
                     ctx.render("/public/formproduct.html",model);
                 });
 
                 post("/editar/:id", ctx -> {
 
 
-                    ctx.redirect("/productos");
+//                    ctx.redirect("/productos");
                     Product product = new Product(
                             ctx.formParam("nombre"),
                             ctx.formParam("precio", Double.class).get(),
                             ctx.formParam("cantidad", Integer.class).get(),
                             ctx.formParam("descripcion", String.class).get()
                     );
+                    Product old = (Product) model.get("product");
+
+                    old.setName(product.getName());
+                    old.setPhotos(product.getPhotos());
+                    old.setPrice(product.getPrice());
+                    old.setQuantity(product.getQuantity());
+                    old.setComments(product.getComments());
+                    old.setDescription(product.getDescription());
+
+                    var files = ctx.uploadedFiles("foto");
                     ctx.uploadedFiles("foto").forEach(uploadedFile -> {
                         try {
 
                             byte[] bytes = uploadedFile.getContent().readAllBytes();
                             String encodedString = Base64.getEncoder().encodeToString(bytes);
                             Photo foto = new Photo(uploadedFile.getFilename(), uploadedFile.getContentType(), encodedString);
-                            product.addPhoto(foto);
+                            photoService.create(foto);
+                            old.addPhoto(foto);
 
 
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     });
-                    productService.update(product);
+                    productService.update(old);
+                    model.put("product",product);
+                    ctx.render("/public/formproduct.html",model);
 
                 });
 
@@ -239,8 +306,8 @@ public class ProductController {
                     productService.update(product);
 
 
-                    ctx.redirect("/");
-                    //ctx.render("/public/formproduct.html",model);
+                    model.put("product",product);
+                    ctx.render("/public/formproduct.html",model);
 
                 });
 
@@ -254,7 +321,9 @@ public class ProductController {
                     commentService.create(comment);
                     product.addComment(comment);
                     productService.update(product);
-                    ctx.redirect("/");
+                    model.put("product",product);
+                    ctx.render("/public/formproduct.html",model);
+                    //ctx.redirect("/");
                 });
 
                 get("/carrito", ctx -> {
@@ -319,6 +388,7 @@ public class ProductController {
 
             });
         });
-    }
 
+
+    }
 }

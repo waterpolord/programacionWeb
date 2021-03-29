@@ -1,0 +1,27 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="pager">
+    <ul class="pagination">
+        <th:block th:each="pageNumber : ${body}">
+            <li th:if="${pageNumber} == 1" class="page-item">
+                <a class="page-link" th:href="${url} + '?page='+ 1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item active" th:if="${pageNumber} == ${paginaactual}">
+                <a class="page-link" th:text="${pageNumber}" href="#"></a>
+            </li>
+            <li class="page-item disabled" th:if="${pageNumber} == -1">
+                <a class="page-link" href="#">...</a>
+            </li>
+            <li class="page-item" th:if="${pageNumber} != -1 and ${pageNumber} != ${paginaactual+1}">
+                <a class="page-link" th:text="${pageNumber}" th:href="${url} + '?page='+ ${pageNumber}"></a>
+            </li>
+            <li th:if="${paginaactual == body.size}" class="page-item"  aria-label="Next">
+                <a class="page-link" th:href="${url} + '?page='+ ${paginaactual + 2}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </th:block>
+    </ul>
+</div>
+</html>

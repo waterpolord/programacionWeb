@@ -28,7 +28,7 @@ public class Product implements Serializable {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
-    @Column()
+    @Column(nullable = false)
     private String description;
 
     public Product(){}

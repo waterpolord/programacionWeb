@@ -140,6 +140,9 @@
             width: 300px;
             height: 300px;
             object-fit: cover;
+            border-style: solid !important;
+            border: 5px solid #555;
+
         }
 
         @import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);
@@ -236,6 +239,12 @@
             overflow-y: auto;
         }
 
+        #black-cover{
+            margin: 3%;
+        }
+
+
+
     </style>
     <title>carrito</title>
 
@@ -245,7 +254,7 @@
     <header th:replace="plantilla.html::header" ></header>
 
 
-        <div class="card bg-dark text-white">
+        <div class="card bg-dark text-white" id="black-cover">
             <div class="card-body">
 
                 <form enctype="multipart/form-data" method="post" th:attr="action=${accion}">
@@ -259,11 +268,11 @@
                         <p class="lead">Fotos</p>
                         <div class="container" th:hidden="${!onBuy}">
 
-                            <div  class="scrollimg" th:each="aux : ${product} ? ${product.photos} : ${photos}">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Romaine_lettuce.jpg/800px-Romaine_lettuce.jpg"/>
+                            <div  class="scrollimg" >
+                                <!--<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Romaine_lettuce.jpg/800px-Romaine_lettuce.jpg"/>
                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3947459/sunset.jpg"/>
-                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3947459/sunset.jpg"/>
-                                <img th:src="@{'data:'+${aux.getMimeType()}+';base64,'+${aux.getFotoBase64()}}" class="card-img-top" alt="Foto enviada">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3947459/sunset.jpg"/>-->
+                                <img th:each="aux : ${product} ? ${product.photos} : ${photos}" th:src="@{'data:'+${aux.getMimeType()}+';base64,'+${aux.getFotoBase64()}}" class="card-img-top" alt="Aqui van las fotos del producto">
                             </div>
 
                         </div>
@@ -375,7 +384,7 @@
                         </div>
 
                     </div>
-                        <form enctype="application/x-www-form-urlencoded" method="post" th:action=" '/productos/comentar/'+${product.id}" >
+                        <form th:hidden="!${onBuy}" enctype="application/x-www-form-urlencoded" method="post" th:attr="action=${accioncomment}" >
                             <div class="form-group row">
 
                                 <div class="col-sm-6">

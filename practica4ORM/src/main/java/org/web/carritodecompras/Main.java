@@ -29,6 +29,10 @@ public class Main {
         products.add(new Product("Queso",225.0,50,""));
         products.add(new Product("Jamon",242.0,4,"jamon induveca"));
         products.add(new Product("Lechuga",2.0,15,""));
+        products.add(new Product("Pan",200.0,5,""));
+        products.add(new Product("Salami",225.0,50,""));
+        products.add(new Product("Ron",100.0,4,""));
+        products.add(new Product("Agua",2.0,15,""));
         for(Product product:products){
             ProductService.getInstance().create(product);
         }

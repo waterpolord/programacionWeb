@@ -30,5 +30,14 @@ public class ProductService extends DataBaseRepository<Product> {
         return productService;
     }
 
+    public List<Product> getPagedProducts(int page){
+        int size = 5;
+        EntityManager entityManager = getEntityManager();
+        Query query = entityManager.createNativeQuery("SELECT * FROM Product",Product.class);
+        query.setFirstResult((page - 1)*size);
+        query.setMaxResults(size);
+        return query.getResultList();
+    }
+
 
 }
